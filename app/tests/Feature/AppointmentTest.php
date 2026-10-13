@@ -27,7 +27,7 @@ class AppointmentTest extends TestCase
         $response = $this->actingAs($this->user)->postJson('/api/appointments', [
             'service_id'   => $this->service->id,
             'patient_name' => 'Jan Kowalski',
-            'date'         => '2026-08-01',
+            'date'         => now()->addWeek()->toDateString(),
             'time'         => '09:00',
             'mode'         => 'stacjonarnie',
         ]);
@@ -45,7 +45,7 @@ class AppointmentTest extends TestCase
             'user_id'      => $this->user->id,
             'service_id'   => $this->service->id,
             'patient_name' => 'Mój pacjent',
-            'date'         => '2026-08-01',
+            'date'         => now()->addWeek()->toDateString(),
             'time'         => '09:00',
             'mode'         => 'stacjonarnie',
         ]);
@@ -54,7 +54,7 @@ class AppointmentTest extends TestCase
             'user_id'      => $otherUser->id,
             'service_id'   => $this->service->id,
             'patient_name' => 'Cudzy pacjent',
-            'date'         => '2026-08-01',
+            'date'         => now()->addWeek()->toDateString(),
             'time'         => '10:00',
             'mode'         => 'online',
         ]);
@@ -74,7 +74,7 @@ class AppointmentTest extends TestCase
             'user_id'      => $otherUser->id,
             'service_id'   => $this->service->id,
             'patient_name' => 'Cudzy pacjent',
-            'date'         => '2026-08-01',
+            'date'         => now()->addWeek()->toDateString(),
             'time'         => '09:00',
             'mode'         => 'stacjonarnie',
         ]);
@@ -107,7 +107,7 @@ class AppointmentTest extends TestCase
             'user_id'      => $this->user->id,
             'service_id'   => $this->service->id,
             'patient_name' => 'Pierwszy',
-            'date'         => '2026-08-01',
+            'date'         => now()->addWeek()->toDateString(),
             'time'         => '09:00',
             'mode'         => 'stacjonarnie',
         ]);
@@ -115,7 +115,7 @@ class AppointmentTest extends TestCase
         $response = $this->actingAs($this->user)->postJson('/api/appointments', [
             'service_id'   => $this->service->id,
             'patient_name' => 'Drugi',
-            'date'         => '2026-08-01',
+            'date'         => now()->addWeek()->toDateString(),
             'time'         => '09:00',
             'mode'         => 'online',
         ]);
@@ -129,7 +129,7 @@ class AppointmentTest extends TestCase
         $response = $this->actingAs($this->user)->postJson('/api/appointments', [
             'service_id'   => $this->service->id,
             'patient_name' => 'Jan Kowalski',
-            'date'         => '2026-08-01',
+            'date'         => now()->addWeek()->toDateString(),
             'time'         => '23:00',
             'mode'         => 'stacjonarnie',
         ]);
@@ -145,7 +145,7 @@ class AppointmentTest extends TestCase
                 'user_id'      => $this->user->id,
                 'service_id'   => $this->service->id,
                 'patient_name' => 'Pacjent',
-                'date'         => '2026-08-01',
+                'date'         => now()->addWeek()->toDateString(),
                 'time'         => $time,
                 'mode'         => 'stacjonarnie',
             ]);
@@ -154,7 +154,7 @@ class AppointmentTest extends TestCase
         $response = $this->actingAs($this->user)->postJson('/api/appointments', [
             'service_id'   => $this->service->id,
             'patient_name' => 'Czwarty pacjent',
-            'date'         => '2026-08-02',
+            'date'         => now()->addWeek()->addDay()->toDateString(),
             'time'         => '09:00',
             'mode'         => 'stacjonarnie',
         ]);
