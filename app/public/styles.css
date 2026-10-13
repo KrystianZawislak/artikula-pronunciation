@@ -119,6 +119,8 @@ body{
   .hero-h1{font-size:clamp(28px,7vh,44px);line-height:1}
   .hero-cta{margin-top:16px;gap:10px}
   .section{padding:44px 0}
+  .field[style*="grid-template-columns"]{display:block!important}
+  .field[style*="grid-template-columns"] > div + div{margin-top:12px}
 }
 .mob-link{font-family:var(--serif);font-size:clamp(26px,7vw,40px);font-weight:500;
   color:var(--ink);text-decoration:none;letter-spacing:-.01em;

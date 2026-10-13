@@ -336,7 +336,11 @@ $(async function () {
 
       /* fade scroll hint at very end */
       const hint = document.querySelector('.scroll-hint');
-      if (hint) hint.style.opacity = p < 0.88 ? 1 : Math.max(0, 1 - (p - 0.88) / 0.10);
+      const isLandscape = window.matchMedia('(orientation:landscape) and (max-height:520px)').matches;
+      if (hint) {
+        if (isLandscape) { hint.style.display = 'none'; }
+        else { hint.style.display = ''; hint.style.opacity = p < 0.88 ? 1 : Math.max(0, 1 - (p - 0.88) / 0.10); }
+      }
 
       /* subtle zoom */
       canvas.style.transform = 'scale(' + (1 + p * 0.18) + ')';
@@ -352,7 +356,7 @@ $(async function () {
   /* time chips */
   function renderChips() {
     $('#time-chips').html(TIMES.map(t =>
-      `<div class="chip-sel${t === selTime ? ' on' : ''}" data-time="${t}">${t}</div>`
+      `<button type="button" class="chip-sel${t === selTime ? ' on' : ''}" data-time="${t}">${t}</button>`
     ).join(''));
   }
 
