@@ -310,7 +310,7 @@ $(async function () {
 
   for (let i = 0; i < FRAME_COUNT; i++) {
     const img = new Image();
-    img.src = 'frames/f' + String(i).padStart(2, '0') + '.jpg';
+    img.src = 'frames/f' + String(i).padStart(2, '0') + '.webp';
     img.onload = () => { if (i === 0) drawFrame(0); };
     imgs[i] = img;
   }
