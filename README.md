@@ -1,114 +1,62 @@
-# ARTIKULA — Atelier Mowy i Dykcji
+# ARTIKULA — Speech Therapy Studio
 
-> Projekt edukacyjny — nauka Laravel, REST API i bezpieczeństwa webowego (OWASP Top 10) od zera.
+Landing page and booking system for a fictional speech therapy studio in Kraków. A single-page frontend with a scroll-driven canvas animation talks to a Laravel REST API secured with Sanctum. The site content is in Polish.
 
-Strona landing page dla fikcyjnego salonu logopedycznego w Krakowie. Frontend to single-page HTML z animacją ust opartą na scrollu i systemem rezerwacji. Backend to REST API w Laravelu z autentykacją przez Sanctum.
+Built as a learning project for Laravel, REST APIs and the OWASP Top 10.
 
----
+![Studio](app/public/atelier.png)
+
+📱 [Mobile demo (video)](docs/mobile-demo.mp4)
 
 ## Stack
 
-| Warstwa | Technologia |
-|---|---|
-| Backend | PHP 8.5 + Laravel 13.14 |
-| Baza danych | MySQL (produkcja) · SQLite (testy) |
-| Autentykacja | Laravel Sanctum (cookie SPA) |
-| ORM | Eloquent |
-| Testy | PHPUnit — 13 testów integracyjnych |
-| Frontend | HTML · CSS · JavaScript + jQuery · bez build processu |
+- **Backend:** PHP 8.3+, Laravel 13, Sanctum (SPA cookie auth), Eloquent
+- **Database:** SQLite (default) or MySQL
+- **Frontend:** HTML, CSS, jQuery, with no build step
+- **Tests:** PHPUnit feature tests
 
----
-
-## Uruchomienie
+## Getting started
 
 ```bash
 cd app
 composer install
-
 cp .env.example .env
 php artisan key:generate
-# uzupełnij DB_DATABASE, DB_USERNAME, DB_PASSWORD w .env
-
 php artisan migrate --seed
-php artisan serve --host=0.0.0.0
+php artisan serve
 ```
 
-Otwórz `http://localhost:8000`
+Open http://localhost:8000.
 
----
-
-## Testowanie na iPhone / iPad
-
-Logowanie przez Wi-Fi wymaga dodania lokalnego IP Maca do `.env`:
-
-```env
-SANCTUM_STATEFUL_DOMAINS=localhost,127.0.0.1,127.0.0.1:8000,<IP>,<IP>:8000
-```
-
-IP znajdziesz przez: `ipconfig getifaddr en0` — zmienia się przy zmianie sieci.
-
----
+To test on a phone over Wi-Fi, run `php artisan serve --host=0.0.0.0` and add your machine's IP to `SANCTUM_STATEFUL_DOMAINS` in `.env`.
 
 ## API
 
-Wszystkie endpointy zaczynają się od `/api/`.
+| Method | Endpoint | Auth |
+|---|---|---|
+| `POST` | `/api/register`, `/api/login` | rate-limited (6/min) |
+| `GET` | `/api/services` | public |
+| `POST` | `/api/logout` | ✓ |
+| `GET` | `/api/user` | ✓ |
+| `GET` `POST` | `/api/appointments` | ✓ |
+| `PUT` `DELETE` | `/api/appointments/{id}` | ✓ owner only |
 
-**Publiczne**
-```
-POST  /register      rejestracja (rate limit: 6/min)
-POST  /login         logowanie   (rate limit: 6/min)
-GET   /services      lista usług
-```
+## Security highlights
 
-**Wymagają zalogowania**
-```
-POST    /logout
-GET     /user
-GET     /appointments
-POST    /appointments
-PUT     /appointments/{id}
-DELETE  /appointments/{id}
-```
+- Cookie-based Sanctum auth with CSRF protection, so no tokens are stored in `localStorage`
+- Ownership enforced via `AppointmentPolicy`
+- Rate limiting on login and registration
+- Slot-conflict validation and a limit of 3 appointments per user
+- Eloquent only, with no raw SQL
 
----
-
-## Testy
+## Tests
 
 ```bash
-php artisan test
+cd app && php artisan test
 ```
 
-13 testów w dwóch plikach — `AuthTest.php` (6) i `AppointmentTest.php` (7). Pokrywają rejestrację, logowanie, CRUD wizyt, walidację danych, autoryzację właściciela i limit 3 wizyt na użytkownika.
+The tests cover registration, login, appointment CRUD, validation, ownership checks and the appointment limit.
 
----
+## Docs
 
-## Bezpieczeństwo — OWASP Top 10
-
-| ID | Zagrożenie | Zabezpieczenie |
-|---|---|---|
-| A01 | Broken Access Control | Sanctum middleware + sprawdzanie właściciela przy każdej operacji |
-| A02 | Cryptographic Failures | Hasła przez bcrypt (`'password' => 'hashed'`) |
-| A03 | Injection | Eloquent ORM — zero surowego SQL |
-| A04 | Insecure Design | Limit 3 wizyt, walidacja konfliktów slotów |
-| A05 | Security Misconfiguration | `.env` w `.gitignore`, debug off w produkcji |
-| A06 | Vulnerable Components | `composer.lock` zablokowane wersje |
-| A07 | Authentication Failures | Rate limiting na login i register |
-| A08 | Software Integrity | `composer.lock` w repozytorium |
-| A09 | Logging Failures | Laravel Log aktywny (`LOG_LEVEL=debug` lokalnie) |
-| A10 | SSRF | Brak zewnętrznych requestów serwerowych |
-
----
-
-## Struktura projektu
-
-```
-app/
-├── app/Http/Controllers/    AuthController.php · AppointmentController.php
-├── app/Models/              User.php · Appointment.php · Service.php
-├── database/migrations/     users · appointments · services · sessions
-├── routes/api.php           definicje wszystkich endpointów
-├── tests/Feature/           AuthTest.php · AppointmentTest.php
-└── public/                  index.html · app.js · styles.css · frames/
-
-kompendium/                  dokumentacja projektu w HTML (EN + PL)
-```
+More detailed guides live in [`docs/`](docs/): setup, project structure, database commands and an explanation of the tests.

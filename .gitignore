@@ -2,8 +2,6 @@
 .vscode/
 .idea/
 *.swp
-*.swo
-*~
 
 # OS
 .DS_Store
@@ -13,21 +11,5 @@ Thumbs.db
 node_modules/
 vendor/
 
-# Laravel
-backend/.env
-backend/.env.local
-backend/storage/
-backend/bootstrap/cache/
-backend/public/storage
-
-# Testing
-backend/coverage/
-.phpunit.result.cache
-
 # Logs
 *.log
-logs/
-
-# Local development
-.env.local
-.env.*.local
