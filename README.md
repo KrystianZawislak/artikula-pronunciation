@@ -4,10 +4,6 @@ Landing page and booking system for a fictional speech therapy studio in Kraków
 
 Built as a learning project for Laravel, REST APIs and the OWASP Top 10.
 
-![Studio](app/public/atelier.png)
-
-📱 [Mobile demo (video)](docs/mobile-demo.mp4)
-
 ## Stack
 
 - **Backend:** PHP 8.3+, Laravel 13, Sanctum (SPA cookie auth), Eloquent
