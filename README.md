@@ -6,7 +6,7 @@ Built as a learning project for Laravel, REST APIs and the OWASP Top 10.
 
 ## Stack
 
-- **Backend:** PHP 8.3+, Laravel 13, Sanctum (SPA cookie auth), Eloquent
+- **Backend:** PHP 8.3.36+, 8.4.27+ or 8.5.12+, Laravel 13, Sanctum (SPA cookie auth), Eloquent
 - **Database:** SQLite (default) or MySQL
 - **Frontend:** HTML, CSS, jQuery, with no build step
 - **Tests:** PHPUnit feature tests
